@@ -20,4 +20,8 @@ public class Brick {
 
     @NonNull
     private String number;
+
+    @Lob
+    @Column(name = "image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] image;
 }
