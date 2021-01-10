@@ -4,34 +4,34 @@
     	$("#submit").prop("disabled", true);
     	var name = $("#name").val();
         var file = $("#image").val(); 
-        var price = $("#price").val();
+        var quantity = $("#quantity").val();
         var description = $("#description").val();
         var form = $("#form").serialize();
     	var data = new FormData($("#form")[0]);
     	data.append('name', name);
-    	data.append('price', price);
+    	data.append('quantity', quantity);
     	data.append('description', description); 
     	//alert(data);
         $('#loader').show();
-        if (name === "" || file === "" || price === "" || description === "") {
+        if (name === "" || file === "" || quantity === "" || description === "") {
         	$("#submit").prop("disabled", false);
             $('#loader').hide();
             $("#name").css("border-color", "red");
             $("#image").css("border-color", "red");
-            $("#price").css("border-color", "red");
+            $("#quantity").css("border-color", "red");
             $("#description").css("border-color", "red");
             $("#error_name").html("Please fill the required field.");
             $("#error_file").html("Please fill the required field.");
-            $("#error_price").html("Please fill the required field.");
+            $("#error_quantity").html("Please fill the required field.");
             $("#error_description").html("Please fill the required field.");
         } else {
             $("#name").css("border-color", "");
             $("#image").css("border-color", "");
-            $("#price").css("border-color", "");
+            $("#quantity").css("border-color", "");
             $("#description").css("border-color", "");
             $('#error_name').css('opacity', 0);
             $('#error_file').css('opacity', 0);
-            $('#error_price').css('opacity', 0);
+            $('#error_quantity').css('opacity', 0);
             $('#error_description').css('opacity', 0);
                     $.ajax({
                         type: 'POST',

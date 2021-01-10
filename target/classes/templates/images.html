@@ -22,21 +22,21 @@
         <th>Name</th>
         <th>Image</th>
         <th>Description</th>
-        <th>Price</th>
+        <th>Quantity</th>
         <th>Created date</th>
         <th>Action</th>
     </tr>
     </thead>
     <tbody th:with="count=0">
-    <tr th:each = "imageGallery, hh : ${images}">
+    <tr th:each = "brick, hh : ${images}">
         <td th:with="count=${count + 1}" th:text="${count}"></td>
-        <td th:text="${imageGallery.name}"></td>
-        <td><img th:src="@{${'/image/display/'+ imageGallery.id}}"
+        <td th:text="${brick.name}"></td>
+        <td><img th:src="@{${'/image/display/'+ brick.id}}"
                  class="card img-fluid" style="width:300px" alt=""/></td>
-        <td th:text="${imageGallery.description}"></td>
-        <td th:text="${imageGallery.price}"></td>
-        <td th:text="${#dates.format({imageGallery.createDate}, 'dd-MM-yyyy')}"/></td>
-        <td><a th:href="@{/image/imageDetails(id=${imageGallery.id})}" class="btn btn-info text-right" target="_blank">View</a></td>
+        <td th:text="${brick.description}"></td>
+        <td th:text="${brick.quantity}"></td>
+        <td th:text="${#dates.format({brick.createDate}, 'dd-MM-yyyy')}"/></td>
+        <td><a th:href="@{/image/imageDetails(id=${brick.id})}" class="btn btn-info text-right" target="_blank">View</a></td>
     </tr>
     </tbody>
 </table>
