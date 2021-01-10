@@ -1,4 +1,4 @@
-package pl.legoinventory;
+package pl.legoinventory.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.legoinventory.entity.Brick;
+import pl.legoinventory.service.BrickService;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -19,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +37,16 @@ public class BrickController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping("/brick/saveBrickDetails")
-    @ResponseBody
-    public ResponseEntity<?> createProduct(@RequestParam("number") String number, Model model,
-                                           HttpServletRequest request, final @RequestParam("image")MultipartFile file) {
+    @GetMapping(value = {"/", "/home"})
+    public String addProductPage() {
+        return "index";
+    }
+
+    @PostMapping("/image/saveImageDetails")
+    public @ResponseBody ResponseEntity<?> createProduct(@RequestParam("name") String name,
+                                                         @RequestParam("quantity") int quantity, @RequestParam("description") String description,
+                                                         Model model, HttpServletRequest request,
+                                                         final @RequestParam("image") MultipartFile file) {
         try {
             String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
             log.info("uploadDirectory:: " + uploadDirectory);
@@ -47,12 +57,16 @@ public class BrickController {
                 model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
                 return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
             }
-            String[] numbers = number.split(",");
-            log.info("Number " + numbers[0] + " " + filePath);
+            String[] names = name.split(",");
+            String[] descriptions = description.split(",");
+            Date createDate = new Date();
+            log.info("Name: " + names[0] + " " + filePath);
+            log.info("description: " + descriptions[0]);
+            log.info("quantity: " + quantity);
             try {
                 File dir = new File(uploadDirectory);
                 if (!dir.exists()) {
-                    log.info("Folder created");
+                    log.info("Folder Created");
                     dir.mkdirs();
                 }
                 // Save the file locally
@@ -65,8 +79,11 @@ public class BrickController {
             }
             byte[] imageData = file.getBytes();
             Brick brick = new Brick();
-            brick.setNumber(numbers[0]);
+            brick.setName(names[0]);
             brick.setImage(imageData);
+            brick.setQuantity(quantity);
+            brick.setDescription(descriptions[0]);
+            brick.setCreateDate(createDate);
             brickService.addBrick(brick);
             log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
             return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
@@ -78,7 +95,9 @@ public class BrickController {
     }
 
     @GetMapping("/image/display/{id}")
-    void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Brick> brick) throws IOException {
+    @ResponseBody
+    void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Brick> brick)
+            throws ServletException, IOException {
         log.info("Id :: " + id);
         brick = brickService.getBrickById(id);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
@@ -96,8 +115,10 @@ public class BrickController {
                 log.info("products :: " + brick);
                 if (brick.isPresent()) {
                     model.addAttribute("id", brick.get().getId());
-                    model.addAttribute("number", brick.get().getNumber());
-                    return "brickdetails";
+                    model.addAttribute("description", brick.get().getDescription());
+                    model.addAttribute("name", brick.get().getName());
+                    model.addAttribute("quantity", brick.get().getQuantity());
+                    return "imagedetails";
                 }
                 return "redirect:/home";
             }
@@ -109,8 +130,9 @@ public class BrickController {
     }
 
     @GetMapping("/image/show")
-    String show(Model map) throws JsonProcessingException {
-        List<Brick> bricks = brickService.getBricks();
-        return "bricks";
+    String show(Model map) {
+        List bricks = brickService.getBricks();
+        map.addAttribute("images", bricks);
+        return "images";
     }
 }
