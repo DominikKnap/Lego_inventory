@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BrickRepository extends JpaRepository<Brick, Long> {
     List<Brick> findAllByName(String name);
+
 }

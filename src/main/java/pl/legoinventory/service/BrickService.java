@@ -25,4 +25,8 @@ public class BrickService {
     public Optional<Brick> getBrickById(Long id) {
         return brickRepository.findById(id);
     }
+
+    public void deleteBrick(Long id) {
+        brickRepository.deleteById(id);
+    }
 }

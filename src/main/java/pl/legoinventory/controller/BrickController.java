@@ -105,6 +105,15 @@ public class BrickController {
         response.getOutputStream().close();
     }
 
+    @DeleteMapping("/image/{id}")
+    @ResponseBody ResponseEntity deleteImage(@PathVariable("id") Long id) {
+        log.info("Id :: " + id);
+        Optional<Brick> brick = brickService.getBrickById(id);
+        brickService.deleteBrick(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    
+
     @GetMapping("/image/imageDetails")
     String showProductDetails(@RequestParam("id") Long id, Optional<Brick> brick, Model model) {
         try {
