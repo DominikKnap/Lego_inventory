@@ -37,7 +37,7 @@
                         type: 'POST',
                         enctype: 'multipart/form-data',
                         data: data,
-                        url: "/image/saveImageDetails", 
+                        url: "/brick/addbrick",
                         processData: false,
                         contentType: false,
                         cache: false,

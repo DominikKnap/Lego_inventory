@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import pl.legoinventory.entity.Brick;
 import pl.legoinventory.service.BrickService;
 
@@ -42,7 +43,7 @@ public class BrickController {
         return "index";
     }
 
-    @PostMapping("/image/saveImageDetails")
+    @PostMapping("brick/addbrick")
     public @ResponseBody ResponseEntity<?> createProduct(@RequestParam("name") String name,
                                                          @RequestParam("quantity") int quantity, @RequestParam("description") String description,
                                                          Model model, HttpServletRequest request,
@@ -94,7 +95,7 @@ public class BrickController {
         }
     }
 
-    @GetMapping("/image/display/{id}")
+    @GetMapping("/brick/display/{id}")
     @ResponseBody
     void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Brick> brick)
             throws ServletException, IOException {
@@ -105,16 +106,24 @@ public class BrickController {
         response.getOutputStream().close();
     }
 
-    @DeleteMapping("/image/{id}")
+    /*@GetMapping("/delete-image/{id}")
+    ModelAndView getDeleteBrick(@PathVariable("id") String id) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("delete-brick");
+        mv.addObject("id", id);
+        return mv;
+    }
+
+    @DeleteMapping("/delete/image/{id}")
     @ResponseBody ResponseEntity deleteImage(@PathVariable("id") Long id) {
         log.info("Id :: " + id);
         Optional<Brick> brick = brickService.getBrickById(id);
         brickService.deleteBrick(id);
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
+    }*/
     
 
-    @GetMapping("/image/imageDetails")
+    @GetMapping("/brick/brickDetails")
     String showProductDetails(@RequestParam("id") Long id, Optional<Brick> brick, Model model) {
         try {
             log.info("Id :: " + id);
@@ -127,7 +136,7 @@ public class BrickController {
                     model.addAttribute("description", brick.get().getDescription());
                     model.addAttribute("name", brick.get().getName());
                     model.addAttribute("quantity", brick.get().getQuantity());
-                    return "imagedetails";
+                    return "brickdetails";
                 }
                 return "redirect:/home";
             }
@@ -138,10 +147,11 @@ public class BrickController {
         }
     }
 
-    @GetMapping("/image/show")
+    @GetMapping("/bricks")
     String show(Model map) {
         List bricks = brickService.getBricks();
-        map.addAttribute("images", bricks);
-        return "images";
+        map.addAttribute("bricks", bricks);
+        map.addAttribute("newBrick", new Brick());
+        return "bricks";
     }
 }
