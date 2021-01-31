@@ -1,18 +1,16 @@
 <!doctype html>
-<html xmlns:th="http://thymeleaf.org" lang="en">
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}"
+      lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
 </head>
 <body>
-
-<table class="table">
-    <thead class="thead-light">
+<div layout:fragment="content">
+<table class="table table-hover">
+    <thead>
     <tr>
         <th scope="col">#</th>
         <th scope="col">Brick name</th>
@@ -32,10 +30,11 @@
         <td th:text="${brick.description}" />
         <td th:text="${brick.quantity}" />
         <td th:text="${#dates.format({brick.createDate}, 'dd-MM-yyyy')}"/></td>
-        <td><a th:href="@{/brick/brickDetails(id=${brick.id})}" class="btn btn-secondary" target="_blank">View</a></td>
+        <td><a th:href="@{/brick/brickDetails(id=${brick.id})}" class="btn btn-primary" target="_blank">View</a></td>
     </tr>
     </tbody>
 </table>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

@@ -1,30 +1,24 @@
 <!doctype html>
-<html xmlns:th="http://thymeleaf.org" lang="en">
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}"
+      lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
-
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Brick details</h1>
-        <p class="lead">See below details about your brick.</p>
+<div layout:fragment="content">
+    <div class="contact py-sm-5 py-4">
+        <div class="container py-xl-4 py-lg-2">
+            <h1 class="display-3">Brick name: <span th:text="${name}"></span></h1>
+            <img th:src="@{${'/brick/display/'+id}}" class="img-responsive center-block" alt="">
+            <p class="lead">Brick description: <span th:text="${description}"></span></p>
+            <p class="lead">Brick quantity: <span th:text="${quantity}"></span></p>
+            <a class="btn btn-primary" href="/bricks" role="button">Go back</a>
+            <a class="btn btn-primary" href="/" role="button">Go home</a>
+        </div>
     </div>
-    <figure class="figure">
-        <img th:src="@{${'/brick/display/'+id}}" class="figure-img img-fluid rounded" alt="">
-        <figcaption class="figure-caption">Brick photo</figcaption>
-    </figure>
-    <p class="text-xl-left">Brick name: <span th:text="${name}"></span></p>
-    <p class="text-xl-left">Brick quantity: <span th:text="${quantity}"></span></p>
-    <p class="text-xl-left">Brick description: <span th:text="${description}"></span></p>
-    <a class="btn btn-secondary" href="/bricks" role="button">Go back</a>
-    <a class="btn btn-secondary" href="/" role="button">Go home</a>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
