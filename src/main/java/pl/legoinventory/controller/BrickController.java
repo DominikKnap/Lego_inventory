@@ -106,7 +106,7 @@ public class BrickController {
         response.getOutputStream().close();
     }
 
-    /*@GetMapping("/delete-image/{id}")
+    @GetMapping("/delete-brick/{id}")
     ModelAndView getDeleteBrick(@PathVariable("id") String id) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("delete-brick");
@@ -114,13 +114,12 @@ public class BrickController {
         return mv;
     }
 
-    @DeleteMapping("/delete/image/{id}")
-    @ResponseBody ResponseEntity deleteImage(@PathVariable("id") Long id) {
+    @PostMapping("/confirm-delete")
+    String deleteImage(@RequestParam("id") Long id) {
         log.info("Id :: " + id);
-        Optional<Brick> brick = brickService.getBrickById(id);
         brickService.deleteBrick(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }*/
+        return "delete-confirm";
+    }
     
 
     @GetMapping("/brick/brickDetails")
@@ -151,7 +150,6 @@ public class BrickController {
     String show(Model map) {
         List bricks = brickService.getBricks();
         map.addAttribute("bricks", bricks);
-        map.addAttribute("newBrick", new Brick());
         return "bricks";
     }
 }

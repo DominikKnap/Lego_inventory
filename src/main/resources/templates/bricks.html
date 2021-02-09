@@ -30,7 +30,8 @@
         <td th:text="${brick.description}" />
         <td th:text="${brick.quantity}" />
         <td th:text="${#dates.format({brick.createDate}, 'dd-MM-yyyy')}"/></td>
-        <td><a th:href="@{/brick/brickDetails(id=${brick.id})}" class="btn btn-primary" target="_blank">View</a></td>
+        <td><a th:href="@{/brick/brickDetails(id=${brick.id})}" class="btn btn-primary" target="_blank">View</a>
+            <a th:href="@{${'/delete-brick/' + brick.id}}" class="btn btn-danger" target="_blank">Delete</a></td>
     </tr>
     </tbody>
 </table>
